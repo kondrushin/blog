@@ -12,47 +12,62 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var mockRepository = new(mocks.IBlogRepository)
-var blogUseCase = usecase.NewBlogUseCase(mockRepository)
-var ctx = context.Background()
-var postInRepo = &domain.Post{
-	Author:  "Anton",
-	Title:   "On mockery",
-	Content: "qwerty",
+type UseCaseTestSuite struct {
+	mockRepository *mocks.IBlogRepository
+	blogUseCase    *usecase.BlogUseCase
+	ctx            context.Context
+	postInRepo     *domain.Post
+}
+
+func SetSuite() *UseCaseTestSuite {
+	var suite = UseCaseTestSuite{}
+	suite.mockRepository = new(mocks.IBlogRepository)
+	suite.blogUseCase = usecase.NewBlogUseCase(suite.mockRepository)
+	suite.ctx = context.Background()
+	suite.postInRepo = &domain.Post{
+		Author:  "Anton",
+		Title:   "On mockery",
+		Content: "qwerty",
+	}
+
+	return &suite
 }
 
 func Test_GetPost_ShouldReturnPostFromRepositry(t *testing.T) {
+	suite := SetSuite()
 	id := int64(45)
 
-	mockRepository.
-		On("GetPost", ctx, id).
+	suite.mockRepository.
+		On("GetPost", suite.ctx, id).
 		Once().
-		Return(postInRepo, nil)
+		Return(suite.postInRepo, nil)
 
-	post, err := blogUseCase.GetPost(ctx, id)
+	post, err := suite.blogUseCase.GetPost(suite.ctx, id)
 
-	assert.EqualValues(t, postInRepo, post)
+	assert.EqualValues(t, suite.postInRepo, post)
 	assert.NoError(t, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_GetPost_ShouldReturnErrorFromRepositry(t *testing.T) {
+	suite := SetSuite()
 	id := int64(45)
 
 	error := errors.New("problem")
 
-	mockRepository.
-		On("GetPost", ctx, id).
+	suite.mockRepository.
+		On("GetPost", suite.ctx, id).
 		Once().
 		Return(nil, error)
 
-	_, err := blogUseCase.GetPost(ctx, id)
+	_, err := suite.blogUseCase.GetPost(suite.ctx, id)
 
 	assert.ErrorIs(t, error, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_GetPosts_ShouldReturnPostsFromRepositry(t *testing.T) {
+	suite := SetSuite()
 	post1 := &domain.Post{
 		Author:  "Anton1",
 		Title:   "On mockery",
@@ -66,105 +81,111 @@ func Test_GetPosts_ShouldReturnPostsFromRepositry(t *testing.T) {
 
 	postsInRepo := []*domain.Post{post1, post2}
 
-	mockRepository.
-		On("GetPosts", ctx).
+	suite.mockRepository.
+		On("GetPosts", suite.ctx).
 		Once().
 		Return(postsInRepo)
 
-	posts := blogUseCase.GetPosts(ctx)
+	posts := suite.blogUseCase.GetPosts(suite.ctx)
 
 	assert.Equal(t, len(postsInRepo), len(posts))
 	for i := 0; i < len(posts); i++ {
 		assert.EqualValues(t, postsInRepo[i], posts[i])
 	}
 
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_CreatePost_ShouldReturnIdFromRepositry(t *testing.T) {
+	suite := SetSuite()
 	postIdFromRepo := int64(45)
 
-	mockRepository.
-		On("CreatePost", ctx, postInRepo).
+	suite.mockRepository.
+		On("CreatePost", suite.ctx, suite.postInRepo).
 		Once().
 		Return(postIdFromRepo, nil)
 
-	id, err := blogUseCase.CreatePost(ctx, postInRepo)
+	id, err := suite.blogUseCase.CreatePost(suite.ctx, suite.postInRepo)
 
 	assert.Equal(t, postIdFromRepo, id)
 	assert.NoError(t, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_CreatePost_Error_ShouldReturnErrorFromRepositry(t *testing.T) {
+	suite := SetSuite()
 	error := errors.New("problem")
 
-	mockRepository.
-		On("CreatePost", ctx, postInRepo).
+	suite.mockRepository.
+		On("CreatePost", suite.ctx, suite.postInRepo).
 		Once().
 		Return(int64(0), error)
 
-	_, err := blogUseCase.CreatePost(ctx, postInRepo)
+	_, err := suite.blogUseCase.CreatePost(suite.ctx, suite.postInRepo)
 
 	assert.ErrorIs(t, error, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_UpdatePost_ShouldCallRepoMethodOnce(t *testing.T) {
+	suite := SetSuite()
 	id := int64(45)
 
-	mockRepository.
-		On("UpdatePost", ctx, postInRepo, id).
+	suite.mockRepository.
+		On("UpdatePost", suite.ctx, suite.postInRepo, id).
 		Once().
 		Return(nil)
 
-	err := blogUseCase.UpdatePost(ctx, postInRepo, id)
+	err := suite.blogUseCase.UpdatePost(suite.ctx, suite.postInRepo, id)
 
 	assert.NoError(t, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_UpdatePost_Error_ShouldReturnErrorFromRepositry(t *testing.T) {
+	suite := SetSuite()
 	id := int64(45)
 
 	error := errors.New("problem")
-	mockRepository.
-		On("UpdatePost", ctx, postInRepo, id).
+	suite.mockRepository.
+		On("UpdatePost", suite.ctx, suite.postInRepo, id).
 		Once().
 		Return(error)
 
-	err := blogUseCase.UpdatePost(ctx, postInRepo, id)
+	err := suite.blogUseCase.UpdatePost(suite.ctx, suite.postInRepo, id)
 
 	assert.ErrorIs(t, error, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_DeleteePost_ShouldCallRepoMethodOnce(t *testing.T) {
+	suite := SetSuite()
 	id := int64(45)
 
-	mockRepository.
-		On("DeletePost", ctx, id).
+	suite.mockRepository.
+		On("DeletePost", suite.ctx, id).
 		Once().
 		Return(nil)
 
-	err := blogUseCase.DeletePost(ctx, id)
+	err := suite.blogUseCase.DeletePost(suite.ctx, id)
 
 	assert.NoError(t, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
 
 func Test_DeleteePost_ShouldPassErrorFromRepo(t *testing.T) {
+	suite := SetSuite()
 	id := int64(45)
 
 	error := errors.New("problem")
 
-	mockRepository.
-		On("DeletePost", ctx, id).
+	suite.mockRepository.
+		On("DeletePost", suite.ctx, id).
 		Once().
 		Return(error)
 
-	err := blogUseCase.DeletePost(ctx, id)
+	err := suite.blogUseCase.DeletePost(suite.ctx, id)
 
 	assert.ErrorIs(t, error, err)
-	mockRepository.AssertExpectations(t)
+	suite.mockRepository.AssertExpectations(t)
 }
