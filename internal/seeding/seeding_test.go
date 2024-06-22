@@ -10,7 +10,7 @@ import (
 
 	"github.com/kondrushin/blog/internal/domain"
 	"github.com/kondrushin/blog/internal/seeding"
-	"github.com/kondrushin/blog/mocks"
+	"github.com/kondrushin/blog/internal/seeding/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

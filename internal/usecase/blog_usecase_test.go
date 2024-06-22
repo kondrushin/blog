@@ -8,7 +8,7 @@ import (
 
 	"github.com/kondrushin/blog/internal/domain"
 	"github.com/kondrushin/blog/internal/usecase"
-	"github.com/kondrushin/blog/mocks"
+	"github.com/kondrushin/blog/internal/usecase/mocks"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -6,18 +6,15 @@ import (
 
 	"github.com/kondrushin/blog/internal/domain"
 	"github.com/kondrushin/blog/internal/repository"
-	"github.com/kondrushin/blog/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
 type UseCaseTestSuite struct {
-	mockRepository *mocks.IBlogRepository
-	ctx            context.Context
+	ctx context.Context
 }
 
 func SetSuite() *UseCaseTestSuite {
 	var suite = UseCaseTestSuite{}
-	suite.mockRepository = new(mocks.IBlogRepository)
 	suite.ctx = context.Background()
 	return &suite
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kondrushin/blog/internal/domain"
 	"github.com/kondrushin/blog/internal/server"
-	"github.com/kondrushin/blog/mocks"
+	"github.com/kondrushin/blog/internal/server/mocks"
 	"github.com/stretchr/testify/mock"
 )
 
