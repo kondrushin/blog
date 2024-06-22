@@ -18,7 +18,8 @@ var ctx = context.Background()
 var postInRepo = &domain.Post{
 	Author:  "Anton",
 	Title:   "On mockery",
-	Content: "qwerty"}
+	Content: "qwerty",
+}
 
 func Test_GetPost_ShouldReturnPostFromRepositry(t *testing.T) {
 	id := int64(45)
@@ -55,11 +56,13 @@ func Test_GetPosts_ShouldReturnPostsFromRepositry(t *testing.T) {
 	post1 := &domain.Post{
 		Author:  "Anton1",
 		Title:   "On mockery",
-		Content: "qwerty"}
+		Content: "qwerty",
+	}
 	post2 := &domain.Post{
 		Author:  "Anton2",
 		Title:   "On mockery",
-		Content: "qwerty"}
+		Content: "qwerty",
+	}
 
 	postsInRepo := []*domain.Post{post1, post2}
 

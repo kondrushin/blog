@@ -19,7 +19,8 @@ func Test_CreatePostAndGetPost_ShouldAddPostToRepo(t *testing.T) {
 	var post = &domain.Post{
 		Author:  "Anton",
 		Title:   "On mockery",
-		Content: "qwerty"}
+		Content: "qwerty",
+	}
 
 	postId, err := repo.CreatePost(ctx, post)
 	assert.EqualValues(t, 1, postId)
@@ -37,7 +38,8 @@ func Test_CreatePost_ShouldSetIdSequentially(t *testing.T) {
 	var post1 = &domain.Post{
 		Author:  "Anton1",
 		Title:   "On mockery1",
-		Content: "qwerty1"}
+		Content: "qwerty1",
+	}
 	postId, err := repo.CreatePost(ctx, post1)
 	assert.EqualValues(t, 1, postId)
 	assert.NoError(t, err)
@@ -45,7 +47,8 @@ func Test_CreatePost_ShouldSetIdSequentially(t *testing.T) {
 	var post2 = &domain.Post{
 		Author:  "Anton2",
 		Title:   "On mockery2",
-		Content: "qwerty2"}
+		Content: "qwerty2",
+	}
 	postId, err = repo.CreatePost(ctx, post2)
 	assert.EqualValues(t, 2, postId)
 	assert.NoError(t, err)
@@ -53,7 +56,8 @@ func Test_CreatePost_ShouldSetIdSequentially(t *testing.T) {
 	var post3 = &domain.Post{
 		Author:  "Anton3",
 		Title:   "On mockery3",
-		Content: "qwerty3"}
+		Content: "qwerty3",
+	}
 	postId, err = repo.CreatePost(ctx, post3)
 	assert.EqualValues(t, 3, postId)
 	assert.NoError(t, err)
@@ -65,7 +69,8 @@ func Test_CreatePost_ShouldNotReuseIdAfterDelete(t *testing.T) {
 	var post1 = &domain.Post{
 		Author:  "Anton1",
 		Title:   "On mockery1",
-		Content: "qwerty1"}
+		Content: "qwerty1",
+	}
 	postId, err := repo.CreatePost(ctx, post1)
 	assert.EqualValues(t, 1, postId)
 	assert.NoError(t, err)
@@ -76,7 +81,8 @@ func Test_CreatePost_ShouldNotReuseIdAfterDelete(t *testing.T) {
 	var post2 = &domain.Post{
 		Author:  "Anton2",
 		Title:   "On mockery2",
-		Content: "qwerty2"}
+		Content: "qwerty2",
+	}
 	postId, err = repo.CreatePost(ctx, post2)
 	assert.EqualValues(t, 2, postId)
 	assert.NoError(t, err)
@@ -88,7 +94,8 @@ func Test_DeletePost_ShouldDeletePostFromRepo(t *testing.T) {
 	var post = &domain.Post{
 		Author:  "Anton",
 		Title:   "On mockery",
-		Content: "qwerty"}
+		Content: "qwerty",
+	}
 
 	postId, err := repo.CreatePost(ctx, post)
 	assert.EqualValues(t, 1, postId)
@@ -118,7 +125,8 @@ func Test_UpdatePost_ShouldUpdateRepo(t *testing.T) {
 	var post = &domain.Post{
 		Author:  "Anton",
 		Title:   "On mockery",
-		Content: "qwerty"}
+		Content: "qwerty",
+	}
 
 	postId, err := repo.CreatePost(ctx, post)
 	assert.EqualValues(t, 1, postId)
@@ -144,7 +152,8 @@ func Test_UpdatePost_NoItemToUpdate_ShouldReturnError(t *testing.T) {
 	var post = &domain.Post{
 		Author:  "Anton",
 		Title:   "On mockery",
-		Content: "qwerty"}
+		Content: "qwerty",
+	}
 
 	err := repo.UpdatePost(ctx, post, int64(34))
 	assert.ErrorIs(t, domain.ErrorPostNotFound, err)
