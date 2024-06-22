@@ -29,7 +29,7 @@ func (ctr *Controller) GetPost(c *gin.Context) {
 		return
 	}
 
-	post, err := ctr.UseCase.GetPost(c.Request.Context(), reqModel.Id)
+	post, err := ctr.UseCase.GetPost(c.Request.Context(), reqModel.ID)
 	if err != nil {
 		c.Error(err)
 		return
@@ -70,15 +70,15 @@ func (ctr *Controller) UpdatePost(c *gin.Context) {
 		c.Error(err)
 		return
 	}
-	reqModel.Id = idReqModel.Id
+	reqModel.ID = idReqModel.ID
 
-	err := ctr.UseCase.UpdatePost(c.Request.Context(), reqModel.toDomainModel(), reqModel.Id)
+	err := ctr.UseCase.UpdatePost(c.Request.Context(), reqModel.toDomainModel(), reqModel.ID)
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"Id": reqModel.Id})
+	c.JSON(http.StatusOK, gin.H{"Id": reqModel.ID})
 }
 
 func (ctr *Controller) DeletePost(c *gin.Context) {
@@ -89,7 +89,7 @@ func (ctr *Controller) DeletePost(c *gin.Context) {
 		return
 	}
 
-	if err := ctr.UseCase.DeletePost(c.Request.Context(), reqModel.Id); err != nil {
+	if err := ctr.UseCase.DeletePost(c.Request.Context(), reqModel.ID); err != nil {
 		c.Error(err)
 		return
 	}
@@ -118,19 +118,19 @@ func readJSON(c *gin.Context, dst any) error {
 }
 
 type postRequest struct {
-	Id      int64  `json:"-" uri:"id"`
+	ID      int64  `json:"-" uri:"id"`
 	Author  string `json:"author" binding:"required"`
 	Title   string `json:"title" binding:"required"`
 	Content string `json:"content" binding:"required"`
 }
 
 type postIdRequest struct {
-	Id int64 `uri:"id"`
+	ID int64 `uri:"id"`
 }
 
 func (p *postRequest) toDomainModel() *domain.Post {
 	return &domain.Post{
-		Id:      p.Id,
+		ID:      p.ID,
 		Author:  p.Author,
 		Title:   p.Title,
 		Content: p.Content,

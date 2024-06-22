@@ -49,7 +49,7 @@ func (r *Repository) GetPosts(ctx context.Context) []*domain.Post {
 
 func (r *Repository) CreatePost(ctx context.Context, post *domain.Post) (int64, error) {
 	nextPostId := r.getNextSequenceId()
-	post.Id = nextPostId
+	post.ID = nextPostId
 
 	r.mutex.Lock()
 	defer r.mutex.Unlock()
@@ -59,7 +59,7 @@ func (r *Repository) CreatePost(ctx context.Context, post *domain.Post) (int64, 
 }
 
 func (r *Repository) UpdatePost(ctx context.Context, post *domain.Post, id int64) error {
-	post.Id = id
+	post.ID = id
 
 	r.mutex.Lock()
 	defer r.mutex.Unlock()

@@ -34,7 +34,7 @@ func Test_GetPost_ShouldReturnPost(t *testing.T) {
 	blogUseCaseMock.
 		On("GetPost", mock.Anything, int64(1)).
 		Return(&domain.Post{
-			Id:      int64(1),
+			ID:      int64(1),
 			Author:  "Anton",
 			Title:   "Big post",
 			Content: "something",
@@ -43,7 +43,7 @@ func Test_GetPost_ShouldReturnPost(t *testing.T) {
 	expect.GET("/v1/api/blog/posts/1").
 		Expect().
 		Status(http.StatusOK).
-		Body().IsEqual("{\"Id\":1,\"Author\":\"Anton\",\"Title\":\"Big post\",\"Content\":\"something\"}")
+		Body().IsEqual("{\"ID\":1,\"Author\":\"Anton\",\"Title\":\"Big post\",\"Content\":\"something\"}")
 
 	blogUseCaseMock.AssertExpectations(t)
 }
@@ -95,14 +95,14 @@ func Test_GetPosts_ShouldReturnPosts(t *testing.T) {
 	expect := SetupServer(t, blogUseCaseMock)
 
 	post1 := &domain.Post{
-		Id:      int64(1),
+		ID:      int64(1),
 		Author:  "Anton",
 		Title:   "Big post",
 		Content: "something",
 	}
 
 	post2 := &domain.Post{
-		Id:      int64(2),
+		ID:      int64(2),
 		Author:  "Jonny",
 		Title:   "Another post",
 		Content: "something but different",
@@ -115,7 +115,7 @@ func Test_GetPosts_ShouldReturnPosts(t *testing.T) {
 	expect.GET("/v1/api/blog/posts").
 		Expect().
 		Status(http.StatusOK).
-		Body().IsEqual("{\"posts\":[{\"Id\":1,\"Author\":\"Anton\",\"Title\":\"Big post\",\"Content\":\"something\"},{\"Id\":2,\"Author\":\"Jonny\",\"Title\":\"Another post\",\"Content\":\"something but different\"}]}")
+		Body().IsEqual("{\"posts\":[{\"ID\":1,\"Author\":\"Anton\",\"Title\":\"Big post\",\"Content\":\"something\"},{\"ID\":2,\"Author\":\"Jonny\",\"Title\":\"Another post\",\"Content\":\"something but different\"}]}")
 
 	blogUseCaseMock.AssertExpectations(t)
 }
@@ -240,7 +240,7 @@ func Test_UpdatePost_ShouldReturnOk(t *testing.T) {
 	expect := SetupServer(t, blogUseCaseMock)
 
 	post := domain.Post{
-		Id:      int64(1),
+		ID:      int64(1),
 		Author:  "Anton",
 		Title:   "New title",
 		Content: "something",
@@ -264,7 +264,7 @@ func Test_UpdatePost_Error_ShouldReturn500Status(t *testing.T) {
 	expect := SetupServer(t, blogUseCaseMock)
 
 	post := domain.Post{
-		Id:      int64(1),
+		ID:      int64(1),
 		Author:  "Anton",
 		Title:   "New title",
 		Content: "something",
@@ -342,7 +342,7 @@ func Test_UpdatePost_IncorrectId_ShouldReturnBadRequest(t *testing.T) {
 	expect := SetupServer(t, blogUseCaseMock)
 
 	post := domain.Post{
-		Id:      int64(1),
+		ID:      int64(1),
 		Author:  "Anton",
 		Title:   "New title",
 		Content: "something",

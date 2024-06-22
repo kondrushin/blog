@@ -30,7 +30,7 @@ func Seed(ctx context.Context, filePath string, repository Repository) error {
 func addPostsToRepository(ctx context.Context, posts []PostFileModel, repository Repository) error {
 	for _, p := range posts {
 		_, err := repository.CreatePost(ctx, &domain.Post{
-			Id:      int64(p.Id),
+			ID:      int64(p.ID),
 			Author:  p.Author,
 			Title:   p.Title,
 			Content: p.Content,
@@ -59,7 +59,7 @@ func getPostsFromFile(filePath string) ([]PostFileModel, error) {
 }
 
 type PostFileModel struct {
-	Id      int64  `json:"-"`
+	ID      int64  `json:"-"`
 	Author  string `json:"author" `
 	Title   string `json:"title"`
 	Content string `json:"content"`

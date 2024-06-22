@@ -22,8 +22,8 @@ func Test_Seed_Success(t *testing.T) {
 
 	blog := seeding.BlogFileModel{
 		Posts: []seeding.PostFileModel{
-			{Id: 1, Author: "Anton", Title: "Big title", Content: "Big Content"},
-			{Id: 2, Author: "Jonny", Title: "Small title", Content: "Small Content"},
+			{ID: 1, Author: "Anton", Title: "Big title", Content: "Big Content"},
+			{ID: 2, Author: "Jonny", Title: "Small title", Content: "Small Content"},
 		}}
 
 	tempFile := writeDataToTestFile(blog)
@@ -62,7 +62,7 @@ func Test_Seed_ErrorWhileCreatingPostInRepo(t *testing.T) {
 
 	blog := seeding.BlogFileModel{
 		Posts: []seeding.PostFileModel{
-			{Id: 1, Author: "Anton", Title: "Big title", Content: "Big Content"},
+			{ID: 1, Author: "Anton", Title: "Big title", Content: "Big Content"},
 		}}
 
 	tempFile := writeDataToTestFile(blog)
