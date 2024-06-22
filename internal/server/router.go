@@ -1,12 +1,12 @@
-package router
+package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kondrushin/blog/internal/controller"
+	"github.com/kondrushin/blog/internal/server/middleware"
 )
 
-func RegisterHandlers(r *gin.Engine, blogUseCase controller.IBlogUseCase) {
-	s := controller.Controller{UseCase: blogUseCase}
+func RegisterHandlers(r *gin.Engine, blogUseCase IBlogUseCase) {
+	s := Controller{UseCase: blogUseCase}
 
 	blogGroup := r.Group("/v1/api/blog")
 	{
@@ -16,4 +16,9 @@ func RegisterHandlers(r *gin.Engine, blogUseCase controller.IBlogUseCase) {
 		blogGroup.DELETE("/posts/:id", s.DeletePost)
 		blogGroup.PUT("/posts/:id", s.UpdatePost)
 	}
+}
+
+func SetupMiddleware(r *gin.Engine) {
+	r.Use(middleware.HttpErrorHandlerMiddleware())
+	r.Use(gin.Recovery())
 }

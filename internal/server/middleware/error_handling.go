@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/kondrushin/blog/internal/domain"
-	"github.com/kondrushin/blog/internal/response"
+	"github.com/kondrushin/blog/internal/server/response"
 )
 
 func HttpErrorHandlerMiddleware() gin.HandlerFunc {

@@ -5,10 +5,9 @@ import (
 	"flag"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kondrushin/blog/internal/middleware"
 	"github.com/kondrushin/blog/internal/repository"
-	"github.com/kondrushin/blog/internal/router"
 	"github.com/kondrushin/blog/internal/seeding"
+	"github.com/kondrushin/blog/internal/server"
 	"github.com/kondrushin/blog/internal/usecase"
 
 	"errors"
@@ -21,11 +20,11 @@ func main() {
 	flag.Parse()
 
 	engine := gin.Default()
-	middleware.Setup(engine)
+	server.SetupMiddleware(engine)
 
 	repository := repository.NewRepository()
 	usecase := usecase.NewBlogUseCase(repository)
-	router.RegisterHandlers(engine, usecase)
+	server.RegisterHandlers(engine, usecase)
 
 	slog.Info("Service started")
 

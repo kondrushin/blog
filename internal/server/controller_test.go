@@ -1,4 +1,4 @@
-package controller_test
+package server_test
 
 import (
 	"errors"
@@ -10,8 +10,7 @@ import (
 	"github.com/gavv/httpexpect/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/kondrushin/blog/internal/domain"
-	"github.com/kondrushin/blog/internal/middleware"
-	"github.com/kondrushin/blog/internal/router"
+	"github.com/kondrushin/blog/internal/server"
 	"github.com/kondrushin/blog/mocks"
 	"github.com/stretchr/testify/mock"
 )
@@ -19,9 +18,9 @@ import (
 func SetupServer(t *testing.T, useCase *mocks.IBlogUseCase) *httpexpect.Expect {
 	gin.SetMode(gin.TestMode)
 	ginRouter := gin.Default()
-	middleware.Setup(ginRouter)
+	server.SetupMiddleware(ginRouter)
 
-	router.RegisterHandlers(ginRouter, useCase)
+	server.RegisterHandlers(ginRouter, useCase)
 	server := httptest.NewServer(ginRouter)
 	expect := httpexpect.Default(t, server.URL)
 
