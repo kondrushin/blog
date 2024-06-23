@@ -105,3 +105,17 @@ The endpoint is designed to delete a post from the blog by specifying its ID.
   ```
     curl -X DELETE 'http://localhost:8080/v1/api/blog/posts/2'
   ```
+
+## How to run
+
+Navigate to the CMD folder and execute the following go command
+
+```
+   go run .
+```
+
+There is an option to seed the blog with posts from a JSON file. For this the seed flag should be used with provided absolut path to the file, e.g.
+
+```
+   go run . -seed /Users/antonkondrushin/Documents/github/blog/seeding/blog_data.json
+```
